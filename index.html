@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Faseeh — ML Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,0.12);--cyan-glow:rgba(0,212,255,0.35);
+  --gold:#f5a623;--gold-dim:rgba(245,166,35,0.12);--gold-glow:rgba(245,166,35,0.3);
+  --bg:#050c14;--bg2:#08111e;--bg3:#0c1828;
+  --text:#deeeff;--muted:rgba(170,205,255,0.5);
+  --border:rgba(0,212,255,0.18);--border2:rgba(0,212,255,0.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* grid overlay */
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);
+  background-size:55px 55px;pointer-events:none;z-index:0}
+
+/* top radial glow */
+body::after{content:'';position:fixed;top:-25vh;left:50%;transform:translateX(-50%);
+  width:70vw;height:55vh;background:radial-gradient(ellipse,rgba(0,212,255,0.07) 0%,transparent 70%);
+  pointer-events:none;z-index:0}
+
+section{position:relative;z-index:1}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;background:rgba(5,12,20,0.88);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;
+  color:var(--cyan);letter-spacing:0.18em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-pill{display:flex;align-items:center;gap:0.5rem;font-family:'Share Tech Mono',monospace;
+  font-size:0.7rem;color:var(--muted);background:var(--bg2);
+  border:1px solid var(--border);padding:0.35rem 0.9rem;border-radius:2px}
+.dot-green{width:6px;height:6px;border-radius:50%;background:#00ff88;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:7rem 2rem 4rem;overflow:hidden}
+
+.hero-ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px solid var(--border2);pointer-events:none}
+.ring1{width:min(460px,85vw);height:min(460px,85vw);transform:translate(-50%,-50%);animation:spin1 22s linear infinite}
+.ring2{width:min(600px,110vw);height:min(600px,110vw);transform:translate(-50%,-50%);animation:spin1 36s linear infinite reverse;border-style:dashed}
+.ring1::after{content:'';position:absolute;top:-5px;left:50%;width:10px;height:10px;
+  background:var(--cyan);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 14px var(--cyan)}
+.ring2::after{content:'';position:absolute;bottom:-5px;right:20%;width:7px;height:7px;
+  background:var(--gold);border-radius:50%;box-shadow:0 0 12px var(--gold)}
+@keyframes spin1{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.eyebrow{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--cyan);
+  letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1.5rem;
+  opacity:0;animation:fup 0.7s 0.2s forwards}
+.hero-name{font-family:'Orbitron',monospace;font-size:clamp(2.8rem,8vw,6.5rem);
+  font-weight:900;line-height:1;letter-spacing:-0.01em;margin-bottom:0.4rem;
+  opacity:0;animation:fup 0.7s 0.4s forwards}
+.hero-name .outline{color:transparent;-webkit-text-stroke:1.5px var(--cyan)}
+.hero-role{font-family:'Share Tech Mono',monospace;font-size:clamp(0.8rem,2vw,1rem);
+  color:var(--muted);letter-spacing:0.18em;margin-bottom:0.75rem;
+  opacity:0;animation:fup 0.7s 0.55s forwards}
+.hero-sub{color:var(--muted);font-size:0.9rem;max-width:520px;margin:0 auto 2.5rem;
+  opacity:0;animation:fup 0.7s 0.7s forwards}
+.hero-sub strong{color:var(--cyan);font-weight:500}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fup 0.7s 0.9s forwards}
+
+.certs-row{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;
+  opacity:0;animation:fup 0.7s 1.1s forwards}
+.cert-badge{font-family:'Share Tech Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;
+  padding:4px 12px;border:1px solid rgba(245,166,35,0.35);border-radius:2px;
+  background:var(--gold-dim);color:var(--gold)}
+
+@keyframes fup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* BUTTONS */
+.btn{font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;
+  text-transform:uppercase;padding:0.7rem 1.8rem;border-radius:2px;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:all 0.2s;border:1px solid}
+.btn-primary{background:var(--cyan);color:#000;border-color:var(--cyan);font-weight:700}
+.btn-primary:hover{background:transparent;color:var(--cyan);box-shadow:0 0 22px var(--cyan-glow)}
+.btn-outline{background:transparent;color:var(--cyan);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--cyan);box-shadow:0 0 22px var(--cyan-glow)}
+.btn-gold{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.btn-gold:hover{background:transparent;color:var(--gold);box-shadow:0 0 22px var(--gold-glow)}
+.btn-gold-outline{background:transparent;color:var(--gold);border-color:rgba(245,166,35,0.35)}
+.btn-gold-outline:hover{border-color:var(--gold);box-shadow:0 0 22px var(--gold-glow)}
+.btn-sm{font-size:0.68rem;padding:0.5rem 1.1rem}
+
+/* ── SECTION WRAPPER ── */
+.s-wrap{max-width:1140px;margin:0 auto;padding:0 2rem}
+
+/* SECTION HEADER */
+.s-head{text-align:center;margin-bottom:4rem}
+.s-eye{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:0.5rem}
+.s-head h2{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,4vw,2.6rem);
+  font-weight:700;letter-spacing:0.05em}
+.s-line{width:56px;height:2px;background:var(--cyan);margin:0.9rem auto 0;box-shadow:0 0 8px var(--cyan)}
+
+/* ── ABOUT ── */
+#about{padding:8rem 0}
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:start}
+.about-text p{color:var(--muted);margin-bottom:1rem;font-size:0.95rem}
+.about-text p strong{color:var(--cyan);font-weight:500}
+.about-text .quote{border-left:2px solid var(--cyan);padding-left:1rem;margin:1.5rem 0;
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--cyan);letter-spacing:0.05em}
+
+.about-aside{display:flex;flex-direction:column;gap:1rem}
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;position:relative;overflow:hidden}
+.info-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--cyan)}
+.info-card h4{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:0.75rem}
+.info-card ul{list-style:none}
+.info-card ul li{font-size:0.82rem;color:var(--muted);padding:0.2rem 0;display:flex;align-items:center;gap:0.5rem}
+.info-card ul li::before{content:'›';color:var(--cyan)}
+.info-card .val{font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--text)}
+
+/* ── PROJECTS ── */
+#projects{padding:8rem 0;background:var(--bg2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2)}
+
+.projects-stack{display:flex;flex-direction:column;gap:3rem}
+
+.proj-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  overflow:hidden;position:relative;transition:border-color 0.3s,box-shadow 0.3s;
+  display:grid;grid-template-columns:1fr 1fr}
+.proj-card:hover{border-color:var(--cyan);box-shadow:0 24px 48px rgba(0,0,0,0.5),0 0 40px rgba(0,212,255,0.08)}
+.proj-card.gold{border-color:rgba(245,166,35,0.2)}
+.proj-card.gold:hover{border-color:var(--gold);box-shadow:0 24px 48px rgba(0,0,0,0.5),0 0 40px rgba(245,166,35,0.1)}
+.proj-card.reverse{grid-template-columns:1fr 1fr}
+
+/* corner deco */
+.cdeco{position:absolute;width:14px;height:14px;border-color:var(--cyan);border-style:solid;opacity:0.6;z-index:2}
+.cdeco.tl{top:10px;left:10px;border-width:1px 0 0 1px}
+.cdeco.tr{top:10px;right:10px;border-width:1px 1px 0 0}
+.cdeco.bl{bottom:10px;left:10px;border-width:0 0 1px 1px}
+.cdeco.br{bottom:10px;right:10px;border-width:0 1px 1px 0}
+.proj-card.gold .cdeco{border-color:var(--gold)}
+
+/* preview pane */
+.proj-preview{background:var(--bg3);min-height:360px;display:flex;align-items:center;
+  justify-content:center;padding:1.5rem;position:relative;overflow:hidden}
+.proj-preview::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(0,212,255,0.05) 0%,transparent 70%)}
+.proj-card.gold .proj-preview::before{background:radial-gradient(ellipse at center,rgba(245,166,35,0.05) 0%,transparent 70%)}
+
+/* info pane */
+.proj-info{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+.proj-tag{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:0.62rem;
+  letter-spacing:0.15em;padding:3px 10px;border-radius:2px;margin-bottom:1rem;text-transform:uppercase}
+.tag-c{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,212,255,0.25)}
+.tag-g{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(245,166,35,0.25)}
+.proj-name{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:700;
+  letter-spacing:0.05em;margin-bottom:0.6rem;line-height:1.2}
+.proj-name.gold-text{color:var(--gold)}
+.proj-tagline{font-size:0.82rem;font-family:'Share Tech Mono',monospace;
+  color:var(--muted);letter-spacing:0.05em;margin-bottom:1rem}
+.proj-desc{color:var(--muted);font-size:0.88rem;margin-bottom:1.25rem}
+.feat-list{list-style:none;margin-bottom:1.5rem}
+.feat-list li{font-size:0.82rem;color:var(--muted);padding:0.25rem 0;display:flex;gap:0.5rem}
+.feat-list li::before{content:'//';color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:0.7rem;flex-shrink:0;padding-top:2px}
+.proj-card.gold .feat-list li::before{color:var(--gold)}
+.tech-pills{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem}
+.tp{font-family:'Share Tech Mono',monospace;font-size:0.62rem;padding:3px 9px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:2px;color:var(--muted)}
+.proj-links{display:flex;gap:0.7rem;flex-wrap:wrap}
+
+/* ── CHAT MOCKUP ── */
+.chat-win{width:100%;max-width:340px;display:flex;flex-direction:column;border-radius:4px;overflow:hidden;
+  border:1px solid rgba(0,212,255,0.2);background:#060f1a}
+.chat-bar{background:#0c1828;padding:10px 14px;font-family:'Share Tech Mono',monospace;
+  font-size:0.65rem;color:var(--cyan);display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(0,212,255,0.15)}
+.cdot{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:blink 2s infinite}
+.chat-list{background:#060f1a}
+.chat-item{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-bottom:1px solid rgba(0,212,255,0.07);transition:background 0.2s}
+.chat-item:hover{background:rgba(0,212,255,0.05)}
+.av{width:30px;height:30px;border-radius:50%;background:rgba(0,212,255,0.15);
+  border:1px solid rgba(0,212,255,0.3);display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:0.5rem;color:var(--cyan);flex-shrink:0}
+.chat-meta{flex:1}
+.chat-name{font-size:0.78rem;color:var(--text);font-weight:500}
+.chat-email{font-size:0.62rem;color:var(--muted);font-family:'Share Tech Mono',monospace}
+.online-dot{width:6px;height:6px;border-radius:50%;background:#00ff88;animation:blink 2.5s infinite;flex-shrink:0}
+
+.dash-preview{width:100%;max-width:340px;background:#060f1a;border:1px solid rgba(0,212,255,0.2);border-radius:4px;overflow:hidden}
+.dash-header{background:linear-gradient(135deg,#4a3f9e,#6c5ce7);padding:14px;
+  font-size:0.75rem;color:rgba(255,255,255,0.9)}
+.dash-header strong{display:block;font-family:'Orbitron',monospace;font-size:1rem;margin-top:4px}
+.dash-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+.ds{background:#0c1828;border:1px solid rgba(0,212,255,0.1);border-radius:3px;
+  padding:10px;text-align:center}
+.ds-num{font-family:'Orbitron',monospace;font-size:1.3rem;color:var(--cyan)}
+.ds-label{font-size:0.6rem;color:var(--muted);margin-top:2px}
+
+/* ── JARVIS MOCKUP ── */
+.jarvis-win{width:100%;max-width:340px;background:#000;border:1px solid rgba(0,212,255,0.4);
+  border-radius:4px;padding:16px;font-family:'Share Tech Mono',monospace;position:relative;overflow:hidden}
+.jarvis-win::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,rgba(0,212,255,0.06) 0%,transparent 70%)}
+.j-title{color:var(--cyan);font-size:0.58rem;letter-spacing:0.28em;text-align:center;
+  border-bottom:1px solid rgba(0,212,255,0.2);padding-bottom:8px;margin-bottom:14px;line-height:1.6}
+.j-rings{position:relative;width:110px;height:110px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.j-ring{position:absolute;border-radius:50%;border:1.5px solid var(--cyan)}
+.j-r1{width:110px;height:110px;animation:jglow 3s ease-in-out infinite}
+.j-r2{width:82px;height:82px;border-color:rgba(0,212,255,0.4);animation:jglow 3s 1s ease-in-out infinite}
+.j-state{font-size:0.65rem;letter-spacing:0.15em;color:var(--cyan);z-index:1;text-align:center}
+@keyframes jglow{0%,100%{box-shadow:0 0 8px var(--cyan-glow),inset 0 0 8px rgba(0,212,255,0.08)}50%{box-shadow:0 0 20px var(--cyan-glow),inset 0 0 18px rgba(0,212,255,0.15)}}
+.j-bar{background:rgba(0,212,255,0.2);border-radius:2px;height:3px;margin-bottom:12px;overflow:hidden}
+.j-bar-fill{height:100%;width:70%;background:var(--cyan);animation:jbar 3s ease-in-out infinite}
+@keyframes jbar{0%,100%{width:60%}50%{width:85%}}
+.j-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.55rem;color:var(--cyan);margin-bottom:8px}
+.j-log{font-size:0.5rem;color:rgba(0,212,255,0.45);line-height:1.7;border-top:1px solid rgba(0,212,255,0.12);padding-top:8px}
+
+/* ── SKILLS ── */
+#skills{padding:8rem 0}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+.sk-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.4rem;transition:border-color 0.2s}
+.sk-card:hover{border-color:var(--cyan)}
+.sk-card h3{font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:0.9rem;
+  padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+.sk-card ul{list-style:none}
+.sk-card ul li{font-size:0.82rem;color:var(--muted);padding:0.22rem 0;display:flex;align-items:center;gap:0.5rem}
+.sk-card ul li::before{content:'›';color:var(--cyan);font-size:1rem}
+
+/* ── CERTS ── */
+#certs{padding:4rem 0 8rem}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.cert-card{background:var(--bg2);border:1px solid rgba(245,166,35,0.2);border-radius:4px;
+  padding:1.5rem;position:relative;overflow:hidden;transition:border-color 0.2s}
+.cert-card:hover{border-color:var(--gold)}
+.cert-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.cert-card h4{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:0.25rem}
+.cert-card p{font-size:0.8rem;color:var(--muted)}
+.cert-card .cert-org{font-family:'Share Tech Mono',monospace;font-size:0.68rem;
+  color:rgba(245,166,35,0.6);margin-top:0.4rem}
+
+/* ── CONTACT ── */
+#contact{padding:8rem 0;background:var(--bg2);border-top:1px solid var(--border2)}
+.contact-inner{max-width:680px;margin:0 auto;text-align:center}
+.contact-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  padding:3rem 2.5rem;margin-top:2rem;position:relative}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.contact-card p{color:var(--muted);margin-bottom:2rem;font-size:0.92rem}
+.contact-info{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:2rem;font-family:'Share Tech Mono',monospace;font-size:0.78rem}
+.contact-info a{color:var(--cyan);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:0.5rem}
+.contact-info a:hover{text-decoration:underline}
+.contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border2);padding:2rem;text-align:center;
+  font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:rgba(170,205,255,0.25);letter-spacing:0.1em}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.7s,transform 0.7s}
+.reveal.v{opacity:1;transform:none}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .proj-card,.proj-card.reverse{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero-name{font-size:clamp(2.4rem,12vw,4rem)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">MF // AI</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-pill"><span class="dot-green"></span>SYSTEMS ONLINE</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-ring ring1"></div>
+  <div class="hero-ring ring2"></div>
+
+  <p class="eyebrow">// Machine Learning Engineer · Lahore, Pakistan</p>
+  <h1 class="hero-name">MUHAMMAD<br><span class="outline">FASEEH</span></h1>
+  <p class="hero-role">AI · LLM · Voice Systems · Full-Stack</p>
+  <p class="hero-sub">Building <strong>intelligent systems</strong> that work in the real world — from Iron Man-inspired voice AI to real-time university networks. Proficient in Python, deep learning frameworks, and cloud infrastructure.</p>
+  <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="mailto:muhammadfaseeh0331@gmail.com" class="btn btn-outline">Get In Touch</a>
+  </div>
+  <div class="certs-row">
+    <span class="cert-badge">CCNA Certified</span>
+    <span class="cert-badge">Microsoft Azure AZ-900</span>
+    <span class="cert-badge">BIT — Superior University</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="s-wrap">
+    <div class="s-head reveal">
+      <p class="s-eye">// 01 — About</p>
+      <h2>Who I Am</h2>
+      <div class="s-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm an <strong>aspiring Machine Learning Engineer</strong> with a Bachelor's in Information Technology from Superior University, Lahore. I build AI-powered applications, LLM-integrated systems, and full-stack real-time platforms.</p>
+        <p>My work spans <strong>natural language processing, voice automation, and hybrid AI architectures</strong> — from a JARVIS-style personal assistant with a triple-layer LLM brain, to a cross-platform real-time messenger deployed on a private university network.</p>
+        <p>I'm proficient in <strong>Python, deep learning frameworks, and cloud infrastructure</strong>, with certifications in Cisco Networking (CCNA) and Microsoft Azure (AZ-900).</p>
+        <div class="quote">"Engineering intelligent systems that bridge the gap between science fiction and everyday reality."</div>
+        <p>Currently based in <strong>Lahore, Pakistan</strong>, open to ML engineering roles, internships, and research collaborations.</p>
+      </div>
+      <div class="about-aside reveal">
+        <div class="info-card">
+          <h4>Contact</h4>
+          <ul>
+            <li><span class="val">muhammadfaseeh0331@gmail.com</span></li>
+            <li><span class="val">+92-331-6686999</span></li>
+            <li><span class="val">Lahore, Pakistan</span></li>
+            <li><span class="val">github.com/su92-bsitm-s23-030-cloud</span></li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Education</h4>
+          <ul>
+            <li><span class="val">BSc Information Technology</span></li>
+            <li>Superior University, Lahore</li>
+            <li>Deep Learning · Data Structures</li>
+            <li>Cloud Computing · Mobile Dev</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Languages</h4>
+          <ul>
+            <li><span class="val">English</span> — Professional</li>
+            <li><span class="val">Urdu</span> — Native</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="s-wrap">
+    <div class="s-head reveal">
+      <p class="s-eye">// 02 — Projects</p>
+      <h2>What I've Built</h2>
+      <div class="s-line"></div>
+    </div>
+
+    <div class="projects-stack">
+
+      <!-- JARVIS -->
+      <div class="proj-card gold reveal">
+        <div class="cdeco tl"></div><div class="cdeco tr"></div>
+        <div class="cdeco bl"></div><div class="cdeco br"></div>
+
+        <div class="proj-preview">
+          <div class="jarvis-win">
+            <div class="j-title">J.A.R.V.I.S. INTERFACE<br>JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+            <div class="j-rings">
+              <div class="j-ring j-r1"></div>
+              <div class="j-ring j-r2"></div>
+              <div class="j-state">ACTIVE</div>
+            </div>
+            <div class="j-bar"><div class="j-bar-fill"></div></div>
+            <div class="j-stats">
+              <span>CORE_LOAD: 14.9%</span>
+              <span>MEM_ALLOC: 91.4%</span>
+            </div>
+            <div class="j-log">
+              [23:15:21] System online. Audio calibrated, Sir.<br>
+              [23:16:10] RECOGNIZED: Jarvis — At your service.<br>
+              [23:16:30] RECOGNIZED: What is the weather today?<br>
+              [23:16:31] Switching to Gemini cloud layer...
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-info">
+          <span class="proj-tag tag-g">Voice AI Assistant</span>
+          <h3 class="proj-name gold-text">J.A.R.V.I.S.</h3>
+          <p class="proj-tagline">Just A Rather Very Intelligent System</p>
+          <p class="proj-desc">A sophisticated hybrid AI personal assistant with voice-activated system automation, hardware monitoring, and natural language interaction — built on a triple-layer brain architecture inspired by Iron Man.</p>
+          <ul class="feat-list">
+            <li>Fail-safe hybrid LLM layer switching between Google Gemini (cloud) and Ollama/Llama 3.2 (local) based on connectivity</li>
+            <li>Custom intent parser translating voice commands into structured JSON for system-level automation — app launching, file management, auto-typing</li>
+            <li>Futuristic Tkinter GUI with dynamic ARC visualizer reacting in real time to system load and audio input</li>
+            <li>Python threading for simultaneous audio capture, TTS output, and UI updates without blocking</li>
+            <li>Real-time hardware telemetry (CPU, RAM, battery) via psutil with voice-activated diagnostics</li>
+          </ul>
+          <div class="tech-pills">
+            <span class="tp">Python</span><span class="tp">Google Gemini</span><span class="tp">Ollama</span>
+            <span class="tp">Llama 3.2</span><span class="tp">Speech Recognition</span>
+            <span class="tp">pyttsx3 TTS</span><span class="tp">Tkinter</span><span class="tp">psutil</span><span class="tp">Threading</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/su92-bsitm-s23-030-cloud" class="btn btn-gold btn-sm">GitHub</a>
+            <a href="#contact" class="btn btn-gold-outline btn-sm">Request Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Superior Messenger -->
+      <div class="proj-card reveal">
+        <div class="cdeco tl"></div><div class="cdeco tr"></div>
+        <div class="cdeco bl"></div><div class="cdeco br"></div>
+
+        <div class="proj-info">
+          <span class="proj-tag tag-c">Real-Time Platform</span>
+          <h3 class="proj-name">Superior Messenger</h3>
+          <p class="proj-tagline">University-scale cross-platform chat network</p>
+          <p class="proj-desc">A full-stack cross-platform real-time messaging application with a Flutter frontend and Node.js/Express backend — built exclusively for Superior University students and staff.</p>
+          <ul class="feat-list">
+            <li>Socket.io for real-time bi-directional communication enabling instant message delivery across all platforms</li>
+            <li>SQLite for both local (client-side) and server-side data persistence — offline support and fast queries</li>
+            <li>Google Sign-In for secure OAuth-based user authentication tied to university emails</li>
+            <li>Provider pattern for scalable, maintainable state management across the Flutter app</li>
+            <li>Dashboard analytics showing total users, online status, recent activity feed, and quick actions</li>
+          </ul>
+          <div class="tech-pills">
+            <span class="tp">Flutter</span><span class="tp">Node.js</span><span class="tp">Express</span>
+            <span class="tp">Socket.io</span><span class="tp">SQLite</span>
+            <span class="tp">Google OAuth</span><span class="tp">Provider</span><span class="tp">REST APIs</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/su92-bsitm-s23-030-cloud" class="btn btn-primary btn-sm">GitHub</a>
+            <a href="#contact" class="btn btn-outline btn-sm">Learn More</a>
+          </div>
+        </div>
+
+        <div class="proj-preview">
+          <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px">
+            <div class="chat-win">
+              <div class="chat-bar"><div class="cdot"></div><span>SUPERIOR NETWORK — CONNECTED</span></div>
+              <div class="chat-list">
+                <div class="chat-item"><div class="av">NJ</div><div class="chat-meta"><div class="chat-name">Najaf</div><div class="chat-email">najaf@superior.edu.pk</div></div><div class="online-dot"></div></div>
+                <div class="chat-item"><div class="av">HD</div><div class="chat-meta"><div class="chat-name">Hadid</div><div class="chat-email">hadid@superior.edu.pk</div></div><div class="online-dot"></div></div>
+                <div class="chat-item"><div class="av">HZ</div><div class="chat-meta"><div class="chat-name">Huzaifa</div><div class="chat-email">huzaifa@superior.edu.pk</div></div><div class="online-dot"></div></div>
+                <div class="chat-item"><div class="av">JN</div><div class="chat-meta"><div class="chat-name">John</div><div class="chat-email">john@superior.edu.pk</div></div><div class="online-dot"></div></div>
+              </div>
+            </div>
+            <div class="dash-preview">
+              <div class="dash-header">Welcome back,<strong>Faseeh</strong><span style="display:inline-block;background:rgba(255,255,255,0.2);border-radius:3px;padding:2px 8px;font-size:0.6rem;margin-top:6px">Superior University</span></div>
+              <div class="dash-stats">
+                <div class="ds"><div class="ds-num">5</div><div class="ds-label">Total Users</div></div>
+                <div class="ds"><div class="ds-num" style="color:#00ff88">0</div><div class="ds-label">Online Now</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="s-wrap">
+    <div class="s-head reveal">
+      <p class="s-eye">// 03 — Skills</p>
+      <h2>Tech Stack</h2>
+      <div class="s-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="sk-card reveal">
+        <h3>AI / ML</h3>
+        <ul>
+          <li>LLMs &amp; Prompt Engineering</li>
+          <li>RAG (Retrieval-Augmented Generation)</li>
+          <li>Hugging Face Transformers</li>
+          <li>PyTorch / Scikit-learn</li>
+          <li>Embeddings &amp; Vector Search</li>
+          <li>NLP / Speech Recognition</li>
+        </ul>
+      </div>
+      <div class="sk-card reveal">
+        <h3>Backend</h3>
+        <ul>
+          <li>Python / FastAPI</li>
+          <li>Node.js / Express</li>
+          <li>REST APIs</li>
+          <li>Socket.io (Real-time)</li>
+          <li>Async Processing</li>
+        </ul>
+      </div>
+      <div class="sk-card reveal">
+        <h3>Databases</h3>
+        <ul>
+          <li>SQLite</li>
+          <li>PostgreSQL</li>
+          <li>MongoDB</li>
+          <li>ChromaDB</li>
+          <li>FAISS (Vector DB)</li>
+        </ul>
+      </div>
+      <div class="sk-card reveal">
+        <h3>Mobile / UI</h3>
+        <ul>
+          <li>Flutter</li>
+          <li>Tkinter (Python GUI)</li>
+          <li>Provider State Management</li>
+          <li>Cross-platform Dev</li>
+        </ul>
+      </div>
+      <div class="sk-card reveal">
+        <h3>Cloud &amp; Infra</h3>
+        <ul>
+          <li>Microsoft Azure (AZ-900)</li>
+          <li>Docker</li>
+          <li>Git / GitHub</li>
+          <li>Linux / CLI</li>
+          <li>Cloud Infrastructure</li>
+        </ul>
+      </div>
+      <div class="sk-card reveal">
+        <h3>Networking</h3>
+        <ul>
+          <li>Cisco CCNA</li>
+          <li>Network Architecture</li>
+          <li>TCP/IP</li>
+          <li>Real-time Protocols</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="s-wrap">
+    <div class="s-head reveal">
+      <p class="s-eye">// 04 — Certifications</p>
+      <h2>Credentials</h2>
+      <div class="s-line"></div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <h4>CCNA</h4>
+        <p>Cisco Certified Network Associate</p>
+        <p class="cert-org">CORVIT · Dec 2022</p>
+      </div>
+      <div class="cert-card reveal">
+        <h4>AZ-900</h4>
+        <p>Microsoft Azure Fundamentals</p>
+        <p class="cert-org">CORVIT · Dec 2022</p>
+      </div>
+      <div class="cert-card reveal">
+        <h4>BIT</h4>
+        <p>Bachelor of Information Technology</p>
+        <p class="cert-org">Superior University, Lahore</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner s-wrap">
+    <div class="s-head reveal">
+      <p class="s-eye">// 05 — Contact</p>
+      <h2>Let's Connect</h2>
+      <div class="s-line"></div>
+    </div>
+    <div class="contact-card reveal">
+      <p>I'm open to ML engineering roles, research collaborations, and interesting AI projects. Whether you want to build the next JARVIS or something entirely new — let's talk.</p>
+      <div class="contact-info">
+        <a href="mailto:muhammadfaseeh0331@gmail.com">📧 muhammadfaseeh0331@gmail.com</a>
+        <a href="tel:+923316686999">📱 +92-331-6686999</a>
+        <a href="https://github.com/su92-bsitm-s23-030-cloud" target="_blank">💻 github.com/su92-bsitm-s23-030-cloud</a>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:muhammadfaseeh0331@gmail.com" class="btn btn-primary">Email Me</a>
+        <a href="https://github.com/su92-bsitm-s23-030-cloud" target="_blank" class="btn btn-outline">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  // MUHAMMAD FASEEH — ML ENGINEER — LAHORE, PK — 2026 &nbsp;·&nbsp; SYSTEMS NOMINAL
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('v'), i*90);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
